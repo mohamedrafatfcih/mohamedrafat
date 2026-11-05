@@ -1,0 +1,9 @@
+---
+import { href } from '../lib/site';
+import { tagSlug } from '../lib/content.mjs';
+interface Props { tags: string[]; linked?: boolean; }
+const { tags, linked = false } = Astro.props;
+---
+<ul class="tags" aria-label="Topics">
+  {tags.map((tag) => <li>{linked ? <a href={href(`blog/topics/${tagSlug(tag)}/`)}>{tag}</a> : <span>{tag}</span>}</li>)}
+</ul>

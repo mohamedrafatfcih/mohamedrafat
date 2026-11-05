@@ -1,0 +1,14 @@
+---
+import { getEntry, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { getProfile } from '../lib/site';
+const [resume, profile] = await Promise.all([getEntry('resume', 'resume'), getProfile()]);
+if (!resume) throw new Error('Add src/content/resume/resume.md before building.');
+const { Content, headings } = await render(resume);
+---
+<Base title="Resume">
+  <div class="container">
+    <header class="page-header"><p class="eyebrow">The experience behind the work</p><h1>Experience &<br /><em>education.</em></h1><p>{profile.data.role} · {profile.data.location}</p></header>
+    <div class="resume-layout"><aside class="resume-sidebar"><span class="eyebrow">On this page</span><nav aria-label="Resume sections">{headings.filter((heading) => heading.depth === 2).map((heading) => <a href={`#${heading.slug}`}>{heading.text}</a>)}</nav><a class="text-link" href={`mailto:${profile.data.email}`}>Get in touch ↗</a></aside><div class="prose resume-prose"><Content /></div></div>
+  </div>
+</Base>

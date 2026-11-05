@@ -1,0 +1,10 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { href } from '../lib/site';
+import Arrow from './Arrow.astro';
+interface Props { papers: CollectionEntry<'research'>[]; }
+const { papers } = Astro.props;
+---
+<div class="research-list">
+  {papers.map((paper) => <article class="research-row"><span class="eyebrow">{paper.data.year}</span><div><p class="meta">{paper.data.venue}</p><h3><a href={href(`research/${paper.id}/`)}>{paper.data.title}</a></h3><p>{paper.data.authors.join(', ')}</p><p>{paper.data.description}</p></div><a class="icon-link" href={href(`research/${paper.id}/`)} aria-label={`Read ${paper.data.title}`}><Arrow diagonal /></a></article>)}
+</div>

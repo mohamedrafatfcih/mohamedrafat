@@ -1,0 +1,9 @@
+---
+import Base from '../../layouts/Base.astro';
+import ResearchList from '../../components/ResearchList.astro';
+import EmptyState from '../../components/EmptyState.astro';
+import { getResearch, getProfile } from '../../lib/site';
+const [papers, profile] = await Promise.all([getResearch(), getProfile()]);
+const study = profile.data.study;
+---
+<Base title="Research" description="Research, publications, and computer science studies."><div class="container page-content"><header class="page-header"><p class="eyebrow">Questions worth exploring</p><h1>Research &<br /><em>ideas.</em></h1><p>Studies, publications, and the ideas behind the work.</p></header><div class="research-intro"><span class="eyebrow">Currently studying</span><p><strong>{study.degree}</strong><br />{study.university} · {study.period} · {study.status}</p></div>{papers.length ? <ResearchList papers={papers} /> : <EmptyState eyebrow="Publications" title="More to come." description="There are no publications listed yet. Paper abstracts, publication details, and links to papers and code will appear here when added." />}</div></Base>

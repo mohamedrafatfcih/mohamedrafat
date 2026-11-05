@@ -1,0 +1,15 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { href } from '../lib/site';
+import Arrow from './Arrow.astro';
+import TagList from './TagList.astro';
+interface Props { project: CollectionEntry<'projects'>; index: number; }
+const { project, index } = Astro.props;
+---
+<article class="project-card">
+  <div class="project-card-top"><span class="project-number">0{index + 1}</span><span class="eyebrow">{project.data.context}</span></div>
+  <h3><a href={href(`projects/${project.id}/`)}>{project.data.title}</a></h3>
+  <p>{project.data.description}</p>
+  <TagList tags={project.data.tags} />
+  <a class="project-card-bottom" href={href(`projects/${project.id}/`)}><span>Explore the work</span><Arrow diagonal /></a>
+</article>

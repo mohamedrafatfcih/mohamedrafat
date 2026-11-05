@@ -1,0 +1,8 @@
+---
+import Base from '../layouts/Base.astro';
+import Arrow from '../components/Arrow.astro';
+import { getProfile } from '../lib/site';
+const { data: profile } = await getProfile();
+const links = [ ['GitHub', profile.github], ['LinkedIn', profile.linkedin], ['Google Scholar', profile.scholar] ].filter(([, url]) => url);
+---
+<Base title="Contact" description={`Get in touch with ${profile.name}, ${profile.role}, based in ${profile.location}.`}><div class="container page-content"><header class="page-header"><p class="eyebrow">A conversation starts here</p><h1>Let’s make a<br /><em>connection.</em></h1><p>Have a project, a research question, or an idea to exchange? I’d be glad to hear from you.</p></header><div class="contact-layout"><div class="contact-primary"><span class="eyebrow">Write to me</span><a class="email-link" href={`mailto:${profile.email}`}>{profile.email}<Arrow diagonal /></a><p>Based in {profile.location}.</p></div>{links.length > 0 && <div class="profile-links"><span class="eyebrow">Elsewhere</span>{links.map(([label, url]) => <a href={url}>{label}<Arrow diagonal /></a>)}</div>}</div></div></Base>

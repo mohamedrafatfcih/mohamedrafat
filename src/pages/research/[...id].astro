@@ -1,0 +1,11 @@
+---
+import { render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import Article from '../../layouts/Article.astro';
+import { getResearch } from '../../lib/site';
+export async function getStaticPaths() { return (await getResearch()).map((paper) => ({ params: { id: paper.id }, props: { paper } })); }
+interface Props { paper: CollectionEntry<'research'>; }
+const { paper } = Astro.props;
+const { Content } = await render(paper);
+---
+<Article title={paper.data.title} description={paper.data.description} section="Research" back="research/" meta={[paper.data.venue, paper.data.year].filter(Boolean).join(' · ')}><p class="authors">{paper.data.authors.join(', ')}</p><Content />{(paper.data.paper || paper.data.code) && <div class="resource-links">{paper.data.paper && <a href={paper.data.paper}>Read paper ↗</a>}{paper.data.code && <a href={paper.data.code}>Source code ↗</a>}</div>}</Article>

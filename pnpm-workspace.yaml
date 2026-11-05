@@ -1,0 +1,5 @@
+minimumReleaseAgeExclude:
+  - astro@7.4.6
+overrides:
+  # Mermaid's 0.18.11 math dependency was accidentally published with breaking changes.
+  'mermaid>katex': 0.19.1

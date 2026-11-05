@@ -1,0 +1,12 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PostList from '../../../components/PostList.astro';
+import { getPosts, href } from '../../../lib/site';
+import { collectTags, tagSlug } from '../../../lib/content.mjs';
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return collectTags(posts).map((tag) => ({ params: { tag: tag.slug }, props: { tag, posts: posts.filter((post) => post.data.tags.some((label) => tagSlug(label) === tag.slug)) } }));
+}
+const { tag, posts } = Astro.props;
+---
+<Base title={`${tag.label} articles`} description={`Articles and engineering notes about ${tag.label}.`}><div class="container page-content"><header class="page-header"><a class="back-link" href={href('blog/')}>← All writing</a><p class="eyebrow">Explore a topic</p><h1><em>{tag.label}.</em></h1><p>{posts.length} {posts.length === 1 ? 'article' : 'articles'} in this notebook.</p></header><PostList posts={posts} /></div></Base>
